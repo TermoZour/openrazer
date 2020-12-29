@@ -63,3 +63,5 @@ dist
 /driver/Module.symvers
 /driver/modules.order
 /driver/*.mod.c
+/driver/*.mod
+/driver/.*.cmd
