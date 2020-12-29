@@ -15,7 +15,7 @@ ATTRS{idProduct}=="010d|010e|010f|0111|0113|011a|011b|0201|0202|0203|0204|0205|0
     ENV{ID_RAZER_CHROMA}="1", ENV{RAZER_DRIVER}="razerkbd"
 
 # Kraken
-ATTRS{idProduct}=="0501|0504|0506|0510|0527", \
+ATTRS{idProduct}=="0501|0504|0506|0510|0527|051a", \
     ATTRS{idVendor}=="1532", \
     ENV{ID_RAZER_CHROMA}="1", ENV{RAZER_DRIVER}="razerkraken"
 
