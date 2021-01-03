@@ -73,6 +73,8 @@ struct razer_report razer_chroma_extended_matrix_get_brightness(unsigned char va
 struct razer_report razer_chroma_extended_matrix_set_custom_frame(unsigned char row_index, unsigned char start_col, unsigned char stop_col, unsigned char *rgb_data);
 struct razer_report razer_chroma_extended_matrix_set_custom_frame2(unsigned char row_index, unsigned char start_col, unsigned char stop_col, unsigned char *rgb_data, size_t packetLength);
 
+struct razer_nari_ultimate_report razer_nari_matrix_static_effect(struct razer_rgb *rgb);
+
 /*
  * Extended Matrix Effects (Mouse) Functions
  *

@@ -164,6 +164,10 @@ static ssize_t razer_attr_read_device_type(struct device *dev, struct device_att
         device_type = "Razer Mouse Bungee V3 Chroma\n";
         break;
 
+    case USB_DEVICE_ID_RAZER_NARI_ULTIMATE:
+        device_type = "Razer Nari Ultimate\n";
+        break;
+
     default:
         device_type = "Unknown Device\n";
         break;
@@ -340,7 +344,9 @@ static ssize_t razer_attr_write_mode_none(struct device *dev, struct device_attr
         report = razer_chroma_extended_matrix_effect_none(VARSTORE, ZERO_LED);
         report.transaction_id.id = 0x1F;
         break;
-
+    case USB_DEVICE_ID_RAZER_NARI_ULTIMATE:
+        //report = "ADD CUSTOM MADE PACKET"
+        break;
     default:
         printk(KERN_WARNING "razeraccessory: Unknown device\n");
         break;
@@ -436,6 +442,8 @@ static ssize_t razer_attr_write_mode_static(struct device *dev, struct device_at
 {
     struct razer_accessory_device *device = dev_get_drvdata(dev);
     struct razer_report report = {0};
+    struct razer_nari_ultimate_report nari_report = {0};
+
 
     if(count == 3) {
         switch (device->usb_dev->descriptor.idProduct) {
@@ -461,6 +469,11 @@ static ssize_t razer_attr_write_mode_static(struct device *dev, struct device_at
         case USB_DEVICE_ID_RAZER_MOUSE_BUNGEE_V3_CHROMA:
             report = razer_chroma_extended_matrix_effect_static(VARSTORE, ZERO_LED, (struct razer_rgb*) & buf[0]);
             report.transaction_id.id = 0x1F;
+            break;
+
+        case USB_DEVICE_ID_RAZER_NARI_ULTIMATE:
+            //report = "ADD CUSTOM PACKET"
+            nari_report = razer_nari_matrix_static_effect((struct razer_rgb*) & buf[0]);
             break;
 
         default:
@@ -743,6 +756,10 @@ static ssize_t razer_attr_read_get_serial(struct device *dev, struct device_attr
         serial_string[22] = '\0';
         break;
 
+    case USB_DEVICE_ID_RAZER_NARI_ULTIMATE:
+        //response_report = "ADD HERE CUSTOM PAYLOAD"
+        break;
+
     default:
         printk(KERN_WARNING "razeraccessory: Unknown device\n");
         break;
@@ -766,6 +783,10 @@ static ssize_t razer_attr_read_get_firmware_version(struct device *dev, struct d
     case USB_DEVICE_ID_RAZER_KRAKEN_KITTY_EDITION:
     case USB_DEVICE_ID_RAZER_MOUSE_BUNGEE_V3_CHROMA:
         report.transaction_id.id = 0x1F;
+        break;
+
+    case USB_DEVICE_ID_RAZER_NARI_ULTIMATE:
+        // TODO: Add custom report for Nari or idk
         break;
 
     default:
@@ -1068,6 +1089,7 @@ static int razer_accessory_probe(struct hid_device *hdev, const struct hid_devic
     case USB_DEVICE_ID_RAZER_CORE:
     case USB_DEVICE_ID_RAZER_KRAKEN_KITTY_EDITION:
     case USB_DEVICE_ID_RAZER_MOUSE_BUNGEE_V3_CHROMA:
+    case USB_DEVICE_ID_RAZER_NARI_ULTIMATE:
         expected_protocol = 0;
         break;
 
@@ -1209,6 +1231,7 @@ static void razer_accessory_disconnect(struct hid_device *hdev)
     case USB_DEVICE_ID_RAZER_CORE:
     case USB_DEVICE_ID_RAZER_KRAKEN_KITTY_EDITION:
     case USB_DEVICE_ID_RAZER_MOUSE_BUNGEE_V3_CHROMA:
+    case USB_DEVICE_ID_RAZER_NARI_ULTIMATE:
         expected_protocol = 0;
         break;
 
@@ -1337,6 +1360,7 @@ static const struct hid_device_id razer_devices[] = {
     { HID_USB_DEVICE(USB_VENDOR_ID_RAZER,USB_DEVICE_ID_RAZER_NOMMO_CHROMA) },
     { HID_USB_DEVICE(USB_VENDOR_ID_RAZER,USB_DEVICE_ID_RAZER_KRAKEN_KITTY_EDITION) },
     { HID_USB_DEVICE(USB_VENDOR_ID_RAZER,USB_DEVICE_ID_RAZER_MOUSE_BUNGEE_V3_CHROMA) },
+    { HID_USB_DEVICE(USB_VENDOR_ID_RAZER,USB_DEVICE_ID_RAZER_NARI_ULTIMATE) },
     { 0 }
 };
 
